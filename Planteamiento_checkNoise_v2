@@ -1,0 +1,51 @@
+#############
+Output de datos del programa checkNoise.py | Brenda C.
+Propuesta Mauricio M
+#############
+
+-El programa debera correr 
+
+USER$checkNoise -opc file.fits
+
+-S	Standar dev
+-M	Mean
+-m	median
+-a	all OHDU
+-c	choose which OHDU
+-s	save .txt and .csv files
+
+
+		Std Dev								Mean											Median
+image	OHDU											OHDU											OHDU
+		1			2			3			4			1			2			3			4			1			2			3			4
+1		
+10		4238.363	5388.077	3764.193	31840.584	4238.363	5388.077	3764.193	31840.584 	4238.363	5388.077	3764.193	31840.584  #ejemplo con datos
+3
+4
+5 
+
+
+-Incluir 3 decimales
+-El numero de de la columna "image" corresponde al numero que le haya asignado el proceso de adquisicion images/init_lta_
+
+-El output debera ser capaz de entregar el analisis completo, o solo los valores para la extension que se desea, es decir. solo la ext 1, solo la ext 2 y 3, todas excepto la 2, o cualquier combinacion.
+
+Ejemplo
+solo mostrando valores de OHDU 1 y 4
+
+		Std Dev					Mean											Median
+image	OHDU					OHDU											OHDU
+		1			4			1			4			1			4
+1		
+10		4238.363	31840.584	4238.363	31840.584 	4238.363	31840.584  #ejemplo con datos
+
+
+solo mostrando valores de OHDU 3
+
+		Std Dev		Mean		Median
+image	OHDU		OHDU		OHDU
+		1			1			1
+1		
+10		4238.363	4238.363	4238.363 	#ejemplo con datos
+
+
