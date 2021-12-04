@@ -1,17 +1,20 @@
+#!/usr/bin/python3
 ###
-#programa checkNoise V2.0
+# checkNoise V2.0      Mauricio Martinez, Brenda Cervantes
 ###
 
 #imports, libraries
 import sys
 from myLibs.noise import noise
+from myLibs.help import help
 
 #import my libraries
 from myLibs.commandParse import MultiCommandParser
 
-# -S	Standar dev
+# -S	Standar dev  (Default)
 # -M	Mean
 # -m	median
+    # To Do
     # -a	all OHDU
     # -c	choose which OHDU
     # -s	save .txt and .csv files
@@ -19,19 +22,17 @@ from myLibs.commandParse import MultiCommandParser
 def main(argv):
 
     commandDict = MultiCommandParser(argv)
-    exitcode=1
-
-    while len(commandDict['commands'])>0 and len(commandDict['files'])>0:
-        
-        #option=commandDict['commands'].pop()
+    if len(commandDict['files']) == 0 and len(commandDict['commands']) == 0:
+        help()
+        exitcode=1
+    
+    elif len(commandDict['commands'])>0 and len(commandDict['files'])>0:
         
         if 'S' or 'M' or 'm' in commandDict['commands']:
-            #haga algo y despues...
-            print('do the S thing')
             noise(commandDict['files'],commandDict['commands'])
             commandDict['commands'].clear()
-            continue
-        
+            
+        else: help()
         # elif 'a' == option:
         #     print('do the a thing')
         #     continue 
@@ -44,7 +45,7 @@ def main(argv):
         #     print('do the s thing')
         #     continue
 
-    exitcode=0
+        exitcode=0
     
 if __name__ == "__main__":
     argv = sys.argv

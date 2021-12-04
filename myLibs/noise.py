@@ -7,6 +7,7 @@ import numpy as np
 from astropy.stats import median_absolute_deviation as mad
 from astropy.io import fits
 from matplotlib import pyplot as plt
+from math import sqrt
 
 import pandas as pd
 
@@ -15,7 +16,7 @@ def noise(fileList,optionList):
     #list of files
     #list of commands
 
-    fileList.sort(key=os.path.getmtime)
+    fileList.sort(key=os.path.getmtime)           #####  lista los archivos en los argumentos del cmd
     
     # Define active and overscan areas
     active_mask = np.s_[:, 9:538]		#   9 <= x < 538
@@ -24,10 +25,10 @@ def noise(fileList,optionList):
 
     statistics={}
     
-    statistics['header'] ={'runID':[]}
-    statistics['stdDev'] ={'runID':[],'ohdu_1':[],'ohdu_2':[],'ohdu_3':[],'ohdu_4':[]}
-    statistics['meanVal']={'runID':[],'ohdu_1':[],'ohdu_2':[],'ohdu_3':[],'ohdu_4':[]} 
-    statistics['medVal'] ={'runID':[],'ohdu_1':[],'ohdu_2':[],'ohdu_3':[],'ohdu_4':[]}
+    statistics['header'] ={'runID':[],'sqrt_NSAMP':[]}
+    statistics['stdDev'] ={'runID':[],'sqrt_NSAMP':[],'ohdu_1':[],'ohdu_2':[],'ohdu_3':[],'ohdu_4':[]}
+    statistics['meanVal']={'runID':[],'sqrt_NSAMP':[],'ohdu_1':[],'ohdu_2':[],'ohdu_3':[],'ohdu_4':[]} 
+    statistics['medVal'] ={'runID':[],'sqrt_NSAMP':[],'ohdu_1':[],'ohdu_2':[],'ohdu_3':[],'ohdu_4':[]}
 
     array=[]
 
@@ -53,11 +54,16 @@ def noise(fileList,optionList):
     
                 
                 string=header['RUNID']
+                sqrt_NSAMP=str(sqrt(int(header['NSAMP'])))
 
         statistics['header']['runID'].append(string)
+        statistics['header']['sqrt_NSAMP'].append(sqrt_NSAMP)
         statistics['stdDev']['runID'].append(string)
+        statistics['stdDev']['sqrt_NSAMP'].append(sqrt_NSAMP)
         statistics['meanVal']['runID'].append(string)
+        statistics['meanVal']['sqrt_NSAMP'].append(sqrt_NSAMP)
         statistics['medVal']['runID'].append(string)
+        statistics['medVal']['sqrt_NSAMP'].append(sqrt_NSAMP)
 
         if 'S' in optionList:
             statistics['stdDev']['ohdu_1'].append(stdDev[0])          # stdDev[0], stdDev[1], stdDev[2], stdDev[3]
@@ -66,7 +72,7 @@ def noise(fileList,optionList):
             statistics['stdDev']['ohdu_4'].append(stdDev[3])
         
         if 'M' in optionList:
-            statistics['meanVal']['ohdu_1'].append(meanVal[0])          # meanVal[0], meanVal[1], meanVal[2], meanVal[3]
+            statistics['meanVal']['ohdu_1'].append(meanVal[0])        # meanVal[0], meanVal[1], meanVal[2], meanVal[3]
             statistics['meanVal']['ohdu_2'].append(meanVal[1])
             statistics['meanVal']['ohdu_3'].append(meanVal[2])
             statistics['meanVal']['ohdu_4'].append(meanVal[3])
@@ -80,20 +86,49 @@ def noise(fileList,optionList):
 
 
     if 'S' in optionList:
-        df=pd.DataFrame.from_dict(statistics['stdDev'])
-        print(df)
+        stdDev_df=pd.DataFrame.from_dict(statistics['stdDev'])
+        print('Check Noise\n\nStandar Deviation\n')
+        print(stdDev_df.round(3))
     if 'M' in optionList:
-        df=pd.DataFrame.from_dict(statistics['meanVal'])
-        print(df)
+        Mean_df=pd.DataFrame.from_dict(statistics['meanVal'])
+        print('\nMean\n')
+        print(Mean_df.round(3))
     if 'm' in optionList:
-        df=pd.DataFrame.from_dict(statistics['medVal'])
-        print(df)
-        # print(string, stdDev[0], stdDev[1], stdDev[2], stdDev[3])#, var[4], var[5], var[6], var[7], "\n")
-        # data2print=str(string)+';'+str(stdDev[0])+';'+str(stdDev[1])+';'+str(stdDev[2])+';'+str(stdDev[3])+'\n'
-        # f=open('proc_stdDev.csv','a')
-        # f.write(data2print)
-        # f.close()
+        median_df=pd.DataFrame.from_dict(statistics['medVal'])
+        print('\nMedian\n')
+        print(median_df.round(3))
+        
+    #plot each column for StdDev
+
+    #stdDev_df.plot()
+    # stdDev_df.plot(x='sqrt_NSAMP', y='ohdu_1')   ### Plot despliega solo los elementos del dataframe que necesitas indicando el eje coordenado
+    # stdDev_df.plot(x='sqrt_NSAMP', y='ohdu_2')
+    # stdDev_df.plot(x='sqrt_NSAMP', y='ohdu_3')
+    # stdDev_df.plot(x='sqrt_NSAMP', y='ohdu_4')
+
     
+
+    #fig=plt.figure(figsize=[8,8])
+    fig, axes=plt.subplots(2, 2, figsize=[9.5,8.5])
+    fig.suptitle('Std Dev vs ADUs/sqrt(NSAMP)')
+    
+    axes[0,0].plot(statistics['stdDev']['sqrt_NSAMP'],statistics['stdDev']['ohdu_1'])
+    axes[0,1].plot(statistics['stdDev']['sqrt_NSAMP'],statistics['stdDev']['ohdu_2'])
+    axes[1,0].plot(statistics['stdDev']['sqrt_NSAMP'],statistics['stdDev']['ohdu_3'])
+    axes[1,1].plot(statistics['stdDev']['sqrt_NSAMP'],statistics['stdDev']['ohdu_4'])
+    axes[0, 0].set_title('ohdu_1')
+    axes[0, 1].set_title('ohdu_2')
+    axes[1, 0].set_title('ohdu_3')
+    axes[1, 1].set_title('ohdu_4')
+    
+    # for ax in axes.flat:
+    #     ax.set(xlabel='sqrt(NSAMP)', ylabel='ADUs')
+
+    axes[0, 0].set(ylabel='ADUs')
+    axes[1, 0].set(xlabel='sqrt(NSAMP)', ylabel='ADUs')
+    axes[1, 1].set(xlabel='sqrt(NSAMP)')
+    
+    plt.show()
 
 
     return 0

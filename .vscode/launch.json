@@ -10,7 +10,7 @@
             "request": "launch",
             "program": "${file}",
             "console": "integratedTerminal",
-            "args": ["/home/mauricio/Software/ltaDaemon-master/images/test_ruido_v2/skp2rooted/proc/*.fits","-m"]
+            "args": ["/home/oem/Imágenes/Fermi_CCDsImages_2021/images/test_ruido_v2/skp2rooted/proc/*.fits"]//, "-S"]//,"-m"]
             //"args": ["/home/mauricio/Software/ltaDaemon-master/images/test_ruido_v2/skp2rooted/proc/*.fits"]
         }
     ]

@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 import os
 import glob
 import sys
@@ -72,7 +73,7 @@ if len(sys.argv) > 1:
 
 		#varNp=np.array(var)
 		
-		print(string, stdDev[0]+'\t', stdDev[1]+'\t', stdDev[2]+'\t', stdDev[3])#, var[4], var[5], var[6], var[7], "\n")
+		print(string, stdDev[0], stdDev[1], stdDev[2], stdDev[3])#, var[4], var[5], var[6], var[7], "\n")
 	# pd.set_option('display.max_rows', None)
 	# df=pd.DataFrame(list(zip(stdDev,meanVal)),columns=None)
 	# print(df)

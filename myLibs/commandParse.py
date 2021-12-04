@@ -1,4 +1,5 @@
 
+import sys
 
 def MultiCommandParser(argv):
     #print('parse commands and file funct')
@@ -9,17 +10,19 @@ def MultiCommandParser(argv):
         'commands':[]
     }
     
+    files = sys.argv[1:]
     
-    argsCopy=argv
-    for i in argsCopy:
+    for i in files:
         #si i contiene "-", removerlo, separar las letras y hacer una lista con ellas
+        
         if i.startswith('-') == True:
             commandDict['commands']=list(i)
             commandDict['commands'].pop(0)
         else:
-            commandDict['files'].append(i)
+            if i.endswith('.fits'):
+                commandDict['files'].append(i)
 
-        if 'S' not in commandDict['commands']:
+        if 'S' not in commandDict['commands'] and len(commandDict['files'])>0:
                 commandDict['commands'].append('S')
     return commandDict
 
