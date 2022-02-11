@@ -5,6 +5,7 @@
 
 #imports, libraries
 import sys
+from myLibs.mean import mean
 from myLibs.noise import noise
 from myLibs.help import help
 
@@ -28,11 +29,11 @@ def main(argv):
     
     elif len(commandDict['commands'])>0 and len(commandDict['files'])>0:
         
-        if 'S' or 'M' or 'm' in commandDict['commands']:
+        if 'S' in commandDict['commands'] or 'M' in commandDict['commands'] or 'm' in commandDict['commands']:
             noise(commandDict['files'],commandDict['commands'])
             commandDict['commands'].clear()
             
-        else: help()
+        
         # elif 'a' == option:
         #     print('do the a thing')
         #     continue 
@@ -44,6 +45,11 @@ def main(argv):
         # elif 's' == option:
         #     print('do the s thing')
         #     continue
+        if 'x'in commandDict['commands']:
+            mean(commandDict['files'],commandDict['commands'])
+            commandDict['commands'].clear()
+
+        else: help()
 
         exitcode=0
     

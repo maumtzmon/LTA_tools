@@ -10,8 +10,9 @@
             "request": "launch",
             "program": "${file}",
             "console": "integratedTerminal",
-            "args": ["/home/oem/Imágenes/Fermi_CCDsImages_2021/images/test_ruido_v2/skp2rooted/proc/*.fits"]//, "-S"]//,"-m"]
-            //"args": ["/home/mauricio/Software/ltaDaemon-master/images/test_ruido_v2/skp2rooted/proc/*.fits"]
+            //"args": ["/home/oem/Imágenes/Fermi_CCDsImages_2021/images/test_ruido_v2/skp2rooted/proc/*.fits", "-SMmp"]//,"-m"]
+            //"args": ["/home/oem/Imágenes/Fermi_CCDsImages_2021/images/test_ruido_v2/skp2rooted/proc/proc_init_lta_ICN_E120_NSAMP_16_img_17.fits","-x"]
+            "args": ["-k","-x","1","2","2","1"]
         }
     ]
 }

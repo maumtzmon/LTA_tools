@@ -22,7 +22,7 @@ def MultiCommandParser(argv):
             if i.endswith('.fits'):
                 commandDict['files'].append(i)
 
-        if 'S' not in commandDict['commands'] and len(commandDict['files'])>0:
-                commandDict['commands'].append('S')
+        #if 'S' not in commandDict['commands'] and len(commandDict['files'])>0:
+        #        commandDict['commands'].append('S')
     return commandDict
 

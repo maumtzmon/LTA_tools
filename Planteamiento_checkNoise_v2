@@ -7,12 +7,12 @@ Propuesta Mauricio M
 
 USER$checkNoise -opc file.fits
 
--S	Standar dev
--M	Mean
--m	median
--a	all OHDU
--c	choose which OHDU
--s	save .txt and .csv files
+-S	Standar dev					ok
+-M	Mean						ok
+-m	median						ok
+-p  plot						Definir que vamos a plotear
+-c	choose which OHDU			ToDo
+-s	save .txt and .csv files	ToDo
 
 
 		Std Dev								Mean											Median

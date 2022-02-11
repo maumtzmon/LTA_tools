@@ -128,7 +128,9 @@ def noise(fileList,optionList):
     axes[1, 0].set(xlabel='sqrt(NSAMP)', ylabel='ADUs')
     axes[1, 1].set(xlabel='sqrt(NSAMP)')
     
-    plt.show()
+    if 'p' in optionList:
+        plt.show()
+    
 
 
     return 0
