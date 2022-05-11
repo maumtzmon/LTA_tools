@@ -1,4 +1,3 @@
-#basic libraries
 import os
 import glob
 import sys

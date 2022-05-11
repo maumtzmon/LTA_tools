@@ -1,4 +1,5 @@
 #basic libraries
+from audioop import reverse
 import os
 import glob
 import sys
@@ -11,18 +12,21 @@ from math import sqrt
 
 import pandas as pd
 
+def last_4chars(x): #funcion para checar en que _img_# termina el archivo para ordenarlos
+    return(x[-10:])
 
 def noise(fileList,optionList):
     #list of files
     #list of commands
 
-    fileList.sort(key=os.path.getmtime)           #####  lista los archivos en los argumentos del cmd
-    
-    # Define active and overscan areas
-    active_mask = np.s_[:, 9:538]		#   9 <= x < 538
-    overscan_mask = np.s_[:, 538:]		# 538 <= x
-    mask=overscan_mask	# Area where variable will be computed
+    fileList.sort(key=last_4chars) #uso de la funcion "last_4chars"
 
+
+    # Define active and overscan areas
+    active_mask = np.s_[:, 9:538]		#   [renglones, 9 <= x < 538]             ####como ajusto las dimensiones de la CCD a las regiones AA y OS?????
+    overscan_mask = np.s_[:, 538:]		#   [renglones, 538 <= x]                              #X=son columnas
+    mask=overscan_mask	# Area where variable will be computed
+    #mask=active_mask
     statistics={}
     
     statistics['header'] ={'runID':[],'sqrt_NSAMP':[]}
@@ -107,30 +111,27 @@ def noise(fileList,optionList):
     # stdDev_df.plot(x='sqrt_NSAMP', y='ohdu_4')
 
     
-
-    #fig=plt.figure(figsize=[8,8])
-    fig, axes=plt.subplots(2, 2, figsize=[9.5,8.5])
-    fig.suptitle('Std Dev vs ADUs/sqrt(NSAMP)')
-    
-    axes[0,0].plot(statistics['stdDev']['sqrt_NSAMP'],statistics['stdDev']['ohdu_1'])
-    axes[0,1].plot(statistics['stdDev']['sqrt_NSAMP'],statistics['stdDev']['ohdu_2'])
-    axes[1,0].plot(statistics['stdDev']['sqrt_NSAMP'],statistics['stdDev']['ohdu_3'])
-    axes[1,1].plot(statistics['stdDev']['sqrt_NSAMP'],statistics['stdDev']['ohdu_4'])
-    axes[0, 0].set_title('ohdu_1')
-    axes[0, 1].set_title('ohdu_2')
-    axes[1, 0].set_title('ohdu_3')
-    axes[1, 1].set_title('ohdu_4')
-    
-    # for ax in axes.flat:
-    #     ax.set(xlabel='sqrt(NSAMP)', ylabel='ADUs')
-
-    axes[0, 0].set(ylabel='ADUs')
-    axes[1, 0].set(xlabel='sqrt(NSAMP)', ylabel='ADUs')
-    axes[1, 1].set(xlabel='sqrt(NSAMP)')
-    
     if 'p' in optionList:
+    #fig=plt.figure(figsize=[8,8])
+        fig, axes=plt.subplots(2, 2, figsize=[9.5,8.5])
+        fig.suptitle('Std Dev vs ADUs/sqrt(NSAMP)')
+        
+        axes[0,0].plot(statistics['stdDev']['sqrt_NSAMP'],statistics['stdDev']['ohdu_1'])
+        axes[1,0].plot(statistics['stdDev']['sqrt_NSAMP'],statistics['stdDev']['ohdu_2'])
+        axes[1,1].plot(statistics['stdDev']['sqrt_NSAMP'],statistics['stdDev']['ohdu_3'])
+        axes[0,1].plot(statistics['stdDev']['sqrt_NSAMP'],statistics['stdDev']['ohdu_4'])
+        axes[0, 0].set_title('ohdu_1')
+        axes[1, 0].set_title('ohdu_2')
+        axes[1, 1].set_title('ohdu_3')
+        axes[0, 1].set_title('ohdu_4')
+        
+        # for ax in axes.flat:
+        #     ax.set(xlabel='sqrt(NSAMP)', ylabel='ADUs')
+
+        axes[0, 0].set(ylabel='ADUs')
+        axes[1, 0].set(xlabel='sqrt(NSAMP)', ylabel='ADUs')
+        axes[1, 1].set(xlabel='sqrt(NSAMP)')
+    
+    
         plt.show()
     
-
-
-    return 0

@@ -10,9 +10,13 @@
             "request": "launch",
             "program": "${file}",
             "console": "integratedTerminal",
-            "args": ["/home/oem/Imágenes/Fermi_CCDsImages_2021/images/test_ruido_v2/skp2rooted/proc/*.fits", "-SMmp"]//,"-m"]
+            //"args": ["/home/mauricio/Software/ltaDaemon-master/images/nsamp_4_9_16/", "-SMmp"]//,"-m"]
+            //"args": ["/home/mauricio/Software/ltaDaemon-master/images/test_ruido_v5/proc", "-SMmp"]
             //"args": ["/home/oem/Imágenes/Fermi_CCDsImages_2021/images/test_ruido_v2/skp2rooted/proc/proc_init_lta_ICN_E120_NSAMP_16_img_17.fits","-x"]
             //"args": ["-k","-x","1","2","2","1"]
+            //"args": ["/home/mauricio/datosFits/09MAY2022/fitsImages/V3/","-SMmp"]
+            "args": ["/home/mauricio/datosFits/11MAY2022/V1/","-SMmp"]
+            
         }
     ]
 }
