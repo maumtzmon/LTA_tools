@@ -45,7 +45,7 @@ def main(argv):
         # elif 's' == option:
         #     print('do the s thing')
         #     continue
-        if 'x'in commandDict['commands']:
+        if  'x' in commandDict['commands']:
             mean(commandDict['files'],commandDict['commands'])
             commandDict['commands'].clear()
 

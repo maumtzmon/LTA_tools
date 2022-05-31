@@ -1,0 +1,70 @@
+import matplotlib.pyplot as plt
+
+voltage_1_Dict={}
+voltage_2_Dict={}
+voltage_3_Dict={}
+
+bias_1_dict={}
+bias_2_dict={}
+bias_3_dict={}
+
+voltagesDicts=[voltage_1_Dict,voltage_2_Dict,voltage_3_Dict]
+
+biasDicts=[bias_1_dict,bias_2_dict,bias_3_dict]
+
+file_1='/home/mauricio/Software/LTA_tools/voltageFiles/voltage_skp_lta_v1_microchip.sh'
+file_2='/home/mauricio/Software/LTA_tools/voltageFiles/voltage_skp_lta_v2_microchip.sh'
+file_3='/home/mauricio/Software/LTA_tools/voltageFiles/voltage_skp_lta_v3_microchip.sh'
+
+files=[file_1,file_2,file_3]
+
+for file, dict in zip(files, voltagesDicts):
+    with open(file, 'r') as dataFile:
+        varlist=[]
+        for line in dataFile:
+            #print(line, end='\r')
+            if '='in line:
+                varlist.append(float(line.split('=')[1]))
+            if len(varlist)==2:
+                dict[line.split('=')[0][0]]=varlist
+                varlist=[]
+            
+
+# #print(str(voltageDict))
+title_1= file_1.split('/')[-1].split('.')[0]
+title_2= file_2.split('/')[-1].split('.')[0]
+title_3= file_3.split('/')[-1].split('.')[0]
+
+fig, axes = plt.subplots(2, 3, figsize=[9.5,8.5])
+fig.canvas.manager.set_window_title('Voltage files setups')
+fig.suptitle('Voltage files comparison')
+axes[0][0].set_title(title_1)
+axes[0][1].set_title(title_2)
+axes[0][2].set_title(title_3)
+
+
+axes[0][0].set(ylabel='volts')
+for dict, i in zip(voltagesDicts, range(0,3)):
+    for key in dict:
+        if key.startswith('h') or key.startswith('s') or key.startswith('o') or key.startswith('d') or key.startswith('r'):
+            axes[0][i].bar(key,dict[key][1], color='k')
+            axes[0][i].bar(key,dict[key][0],color='forestgreen')
+
+# vdrain; vdd; vr; vsub
+
+for file, dict in zip(files, biasDicts):
+    with open(file, 'r') as dataFile:
+        for line in dataFile:
+            #print(line, end='\r')
+            if 'vdrain ' in line or 'vdd ' in line or 'vr ' in line or 'vsub ' in line:
+                dict[line.split(' ')[2]]=float(line.split(' ')[3].split('#')[0])
+
+biasDicts
+
+
+axes[1][0].set(ylabel='volts')
+for dict, i in zip(biasDicts, range(0,3)):
+    for key in dict:
+        axes[1][i].bar(key,dict[key],color='forestgreen')
+
+plt.show()
